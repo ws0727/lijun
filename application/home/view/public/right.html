@@ -1,0 +1,90 @@
+<div id='right'>
+    <!--个人信息开始-->
+    <{if isset($smarty.session.user)}>
+    <div class='userinfo'>
+        <dl>
+            <dt>
+                <a href="<{url('Index/member')}>"><img src="<{$user.user_face}>" width='48' height='48' alt="占位符"/></a>
+            </dt>
+            <dd class='username'>
+                <a href="">
+                    <b></b>
+                </a>
+                <a href="">
+                    <i class='level lv1' title='Level 1'></i>
+                </a>
+            </dd>
+            <dd>金币：<a href="" style="color: #888888;"><{$user.user_gold}><b class='point'></b></a></dd>
+            <dd>经验值：<{$user.user_exp}></dd>
+        </dl>
+        <table>
+            <tr>
+                <td>回答数</td>
+                <td>采纳率</td>
+                <td class='last'>提问数</td>
+            </tr>
+            <tr>
+                <td><a href=""><{$user.user_answer_num}></a></td>
+                <td><a href=""><{$user.user_accept_num}></a></td>
+                <td class='last'><a href=""><{$user.user_ask_num}></a></td>
+            </tr>
+        </table>
+
+        <ul>
+            <li><a href="">我提问的</a></li>
+            <li><a href="<{url('Index/member')}>">我回答的</a></li>
+        </ul>
+    </div>
+    <{/if}>
+    <div class='clear'></div>
+    <!--个人信息结束-->
+
+    <!--后盾问答之星开始-->
+    <div class='star'>
+        <p class='title'>后盾问答之星</p>
+        <span class='star-name'>本日回答问题最多的人</span>
+        <div class='star-info'>
+            <div>
+
+                <a href="" class='star-face'>
+                    <img src="<{$userinfo1.user_face}>" width='48px' height='48px' alt="头像站位"
+                </a>
+                <ul>
+                    <li><a href="">后盾网</a></li>
+                    <i class='level lv1' title='Level 1'></i>
+                </ul>
+            </div>
+            <ul class='star-count'>
+                <li>回答数：<span><{$userinfo1.user_answer_num}></span></li>
+                <li>采纳率：<span><{$userinfo1.user_accept_num}></span></li>
+            </ul>
+        </div>
+    </div>
+    <!--后盾问答之星结束-->
+
+    <!--后盾问答助人光荣榜开始-->
+    <div class='star-list'>
+        <p class='title'>后盾问答助人光荣榜</p>
+        <div>
+            <ul class='ul-title'>
+                <li>用户名</li>
+                <li style='text-align:right;'>帮助过的人数</li>
+            </ul>
+            <ul class='ul-list'>
+                <li>
+                    <a href=""><i class='rank r1'></i><{$userinfo2[0].user_name}></a>
+                    <span><{$userinfo2[0].user_answer_num}></span>
+                </li>
+                <li>
+                    <a href=""><i class='rank r2'></i><{$userinfo2[1].user_name}></a>
+                    <span><{$userinfo2[1].user_answer_num}></span>
+                </li>
+                <li>
+                    <a href=""><i class='rank r3'></i><{$userinfo2[2].user_name}></a>
+                    <span><{$userinfo2[2].user_answer_num}></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--后盾问答助人光荣榜结束-->
+</div>

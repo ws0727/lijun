@@ -1,0 +1,58 @@
+<div id='left'>
+    <div class='userinfo'>
+        <dl>
+
+            <dt>
+                <a href=""><img src="<{$user.user_face}>" width='48' height='48' alt="占位符"/></a>
+            </dt>
+
+            <dd class='username'>
+                <a href=""><b>后盾网</b>
+                </a>
+                <a href="">
+                    <i class='level lv1' title='Level 1'></i>
+                </a>
+            </dd>
+
+            <dd>金币：<a href="" style="color: #888888;"><b class='point'><{$user.user_gold}></b></a></dd>
+            <dd>经验值：<{$user.user_exp}></dd>
+
+        </dl>
+        <table>
+            <tr>
+                <td>回答数</td>
+                <td>采纳率</td>
+                <td class='last'>提问数</td>
+            </tr>
+            <tr>
+                <td><a href=""><{$user.user_answer_num}></a></td>
+                <td><a href=""><{$user.user_accept_num}></a></td>
+                <td class='last'><a href=""><{$user.user_ask_num}></a></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <ul>
+        <li class='myhome cur'>
+            <a href="">我的首页</a>
+        </li>
+        <li class='myask'>
+            <a href="">我的提问</a>
+        </li>
+        <li class='myanswer'>
+            <a href="">我的回答</a>
+        </li>
+        <li class='mylevel'>
+            <a href="">我的等级</a>
+        </li>
+        <li class='mygold'>
+            <a href="">我的金币</a>
+        </li>
+        <li class='myface'>
+            <a href="<{url('User/face')}>">上传头像</a>
+        </li>
+
+        <li style="background:none"></li>
+    </ul>
+</div>

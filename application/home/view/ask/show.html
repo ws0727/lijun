@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>后盾问答</title>
+	<meta name="keywords" content="后盾问答"/>
+	<meta name="description" content="后盾问答"/>
+	<link rel="stylesheet" href="<{resource()}>home/css/common.css" />
+	<script type="text/javascript" src='<{resource()}>home/js/jquery-1.7.2.min.js'></script>
+	<script type="text/javascript" src='<{resource()}>home/js/top-bar.js'></script>
+	<link rel="stylesheet" href="<{resource()}>home/css/question.css" />
+	<script type="text/javascript" src="<{resource()}>home/js/question.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			//找到对象
+			$("#anw_sub").click(function(){
+                //找到输入框对象.失去焦点自动触发
+				$("textarea[name='content']").trigger("blur");
+				//取值
+				//接内容去除两边空格
+				var content=$("textarea[name='content']").val().trim();
+				//接隐藏域里的id值
+				var ask_id=$("input[name='qid']").val();
+				//发ajax
+				$.ajax({
+					type:"post",
+					url:"<{url('Ask/add')}>",
+					data:{
+						content:content,
+						ask_id:ask_id
+					},
+					dataType:"json",     //转成json格式
+					//监听
+					success:function(data){
+						if(data.status==1){
+							location.href="";
+						}
+					},
+					error:function(data){
+						if(data.status==0){
+							alert("网络错误");
+						}
+					}
+				})
+			});
+
+
+
+//采纳
+		$(".adopt-btn").click(function(){
+			var answer_id=parseInt($("input[name='answer_id']").val());
+			$.ajax({
+				type:"post",
+				url:"<{url('Ask/accept')}>",
+				data:{
+					answer_id:answer_id
+				},
+				dataType:"json",     //转成json格式
+				//监听
+				success:function(data){
+					if(data.status==1){
+						location.href="";
+					}else{
+						alert("采纳失败");
+					}
+				},
+				error:function(data){
+					if(data.status==0){
+						alert("网络错误");
+					}
+				}
+			});
+		   });
+
+
+
+
+
+//分页
+//		$(".page").click(function(){
+//			//接值
+//			var pagenow=parseInt($(this).parent().type("pagenow"));
+//			var pagesum=parseInt($(this).parent().type("pagesum"));
+//			var ask_id=$(this).html();
+//
+//			$obj=$(this);
+//			if($(this).is(".first")){    //如果first p=1
+//				var p=1;
+//			}
+//			if($(this).is(".prev")){     //如果prev p=pagenow-1
+//				var p=pagenow-1;
+//			}
+//			if($(this).is(".next")){     //如果next p=pagenow+1
+//				var p=pagenow+1;
+//			}
+//			if($(this).is(".last")){     //如果last p=pagesum
+//				var p=pagesum;
+//			}
+//			if(p==0||p>pagesum) return false;    //如果p=0或者大于pagesum就false
+//			$.ajax({
+//				type:"get",
+//				url:"<{url('Ask/page')}>",
+//				data:{
+//					ask_id:ask_id,
+//					p:p
+//				},
+//				success:function(data){
+//					if(data.status==1){
+//						var html="";
+//						var date = new Date(v.answer_time * 1000);
+//						Y = date.getFullYear() + '-';
+//						M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+//						D = date.getDate() + ' ';
+//						var answer_time = Y+M+D;
+//						$.each(data.content,function(k,v) {
+//							html+='<ul><li><div class="face">';
+//							html+='<a href="">';
+//							html+='<img src="'+ v.user_face+'" width="48" height="48">';
+//							html+='</a></div><div class="cons blue">';
+//							html+='<p>'+ v.ask_content+'！<span style="color:#888;font-size:12px">&nbsp;&nbsp;('+ answer_time+')</span></p>';
+//							html+='</div></li></ul>';
+//
+//						});
+//					}
+//				},
+//				error:function(data){
+//					if(data.status==0){
+//
+//					}
+//				}
+//			});
+//		});
+
+
+
+	});
+	</script>
+</head>
+<body>
+	<!-- top -->
+	<{include file='public/header.html'}>
+
+<!--背景遮罩--><div id='background' class='hidden'></div>
+<!-- top 结束-->
+	<div id='location'>
+		<a href="">全部分类</a>
+		<{foreach from=$breadNav item=vo}>
+		>&nbsp;<a href=""><{$vo.cate_name}></a>&nbsp;&nbsp;
+		<{/foreach}>
+	</div>
+
+<!--------------------中部-------------------->
+	<div id='center-wrap'>
+		<div id='center'>
+			<div id='left'>
+				<div id='answer-info'>
+					<!-- 如果没有解决用wait -->
+					<{if $ask1.ask_status eq 0}>
+					<div class='ans-state wait'></div>
+					<{else}>
+					<div class='ans-state'></div>
+					<{/if}>
+
+
+
+					<div class='answer'>
+						<p class='ans-title'><{$ask1.ask_content}>
+							<b class='point'><{$ask1.ask_gold}></b>
+						</p>
+					</div>
+					<ul>
+						<li><a href=""><{$ask1.user_name}></a></li>
+						<li><i class='level <{level($ask1.user_exp)}>' title='<{level($ask1.user_exp)}>'></i></li>
+						<li><{date('m-d H',$ask1.ask_time)}></li>
+					</ul>
+					<{if isset($smarty.session.user)}>
+					<div class='ianswer'>
+						<form action="" method='POST'>
+							<p>我来回答</p>
+							<textarea name="content"></textarea>
+							<input type="hidden" name='qid' value='<{$ask1.ask_id}>'>
+							<input type="botton" value='提交回答' id='anw_sub'/>
+						</form>
+					</div>
+					<{/if}>
+					<!-- 满意回答 -->
+					<{if $answer1.answer_status eq 0}>
+
+					<div class='ans-right'>
+						<p class='title'><i></i>满意回答<span></span></p>
+						<p class='ans-cons'><{$answer1.answer_content}>！</p>
+						<dl>
+							<dt>
+								<a href=""><img src="<{$answer1.user_face}>" width='48' height='48'/></a>
+							</dt>
+							<dd>
+								<a href=""><{$answer1.user_name}></a>
+							</dd>
+							<dd><i class='level <{level($ask1.user_exp)}>'></i></dd>
+							<dd><{$userinfo1.user_accept_num}></dd>
+						</dl>
+					</div>
+
+					<{/if}>
+					<!-- 满意回答 -->
+				</div>
+
+
+
+				<div id='all-answer'>
+					<div class='ans-icon'></div>
+					<p class='title'>共 <strong><{$count1}></strong> 条回答</p>
+					<!--回答开始-->
+					<ul>
+						<{foreach from=$answer item=vo}>
+						<li>
+							<div class='face'>
+								<a href="">
+									<img src="<{$vo.user_face}>" width='48' height='48'/>
+								</a>
+							</div>
+							<div class='cons blue'>
+								<p><{$vo.answer_content}>！<span style='color:#888;font-size:12px'>&nbsp;&nbsp;(<{date('Y-d-m',$vo.answer_time)}>)</span></p>
+							</div>
+							<{if isset($smarty.session.user)}>
+							<{if $smarty.session.user.user_id eq $ask1.user_id }>
+							<{if $vo.answer_status eq 0}>
+								<a  class='adopt-btn'>采纳</a>
+							    <input type="hidden" name='answer_id' value='<{$vo.answer_id}>'>
+
+							<{/if}>
+							<{/if}>
+							<{/if}>
+						</li>
+						<{/foreach}>
+					</ul>
+					<!--回答结束-->
+					<!--分页开始-->
+					<div class="page" pagenow="1" pagesum="" ask_id="<{$ask1.ask_id}>">
+						<a class="first" href="javascript:void(0)">首页</a>
+						<a class="prev" href="javascript:void(0)">上一页</a>
+						<a class="next" href="javascript:void(0)">下一页</a>
+						<a class="last" href="javascript:void(0)">尾页</a>
+					</div>
+					<!--分页结束-->
+				</div>
+
+
+
+				<div id='other-ask'>
+					<p class='title'>待解决的相关问题</p>
+					<table>
+						<tr>
+							<td class='t1'><a href=""><{$ask1.ask_content}></a></td>
+							<td><{$ask1.ask_answer_num}>&nbsp;回答</td>
+							<td><{date('Y-m-d',$ask1.ask_time)}></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		<!-- 右侧 -->
+			<{include file='public/right.html'}>
+<!-- ---右侧结束---- -->
+		</div>
+	</div>
+<!--------------------中部结束-------------------->
+
+<!-- 底部 -->
+	<{include file='public/footer.html'}>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>后盾问答</title>
+	<meta name="keywords" content="后盾问答"/>
+	<meta name="description" content="后盾问答"/>
+	<link rel="stylesheet" href="<{resource()}>home/css/common.css"/>
+	<script type="text/javascript" src='<{resource()}>home/js/jquery-1.7.2.min.js'></script>
+	<script type="text/javascript" src='<{resource()}>home/js/top-bar.js'></script>
+	<link rel="stylesheet" href="<{resource()}>home/css/member.css"/>
+	<script>
+
+	</script>
+</head>
+<body>
+<{include file='public/header.html'}>
+<!--背景遮罩--><div id='background' class='hidden'></div>
+<!-- top结束 -->
+<!--------------------中部-------------------->
+<div id='center'>
+<!-- 左侧 -->
+	<!-- 左侧 -->
+	<{include file='public/left.html'}>
+	<!-- 左侧结束 -->
+		<div id='right'>
+	
+			<p class='title'>我的首页</p>
+
+			<ul class='property'>
+				<li>金币：<span><{$user.user_gold}></span></li>
+				<li>经验值：<span><{$user.user_exp}></span></li>
+				<li>采纳率：<span><{$user.user_accept_num}></span></li>
+			</ul>
+
+			<div class='list'>
+				<p><span>我的提问 <b>(共<{$count1}>条)</b></span><a href="">更多>></a></p>
+				<table>
+					<{foreach from=$ask item=vo}>
+						<tr height='140'>
+							<td><{$vo.ask_content}></td>
+						</tr>
+
+						<tr>
+							<th class='t1'>标题</th>
+							<th>回答数</th>
+							<th class='t3'>更新时间</th>
+						</tr>
+					
+						<tr>
+							<td class='t1'>
+								<a href="">什么牌子的电脑最好？</a><span>[电脑/硬件]</span>
+							</td>
+							<td><{$vo.ask_answer_num}></td>
+							<td class='t3'><{date('Y-m-d',$vo.ask_time)}></td>
+						</tr>
+					 <{/foreach}>
+				</table>
+			</div>
+		</div>
+	</div>
+<!--------------------中部结束-------------------->
+
+<!--------------------底部-------------------->
+<!-- 底部 -->
+<{include file='public/footer.html'}>

@@ -1,0 +1,6 @@
+错误文件:D:\phpStudy\PHPTutorial\WWW\tp\application\home\controller\UserController.class.php
+        行数:22错误提示:Undefined index: face时间:2019-09-18IP:127.0.0.1
+错误文件:D:\phpStudy\PHPTutorial\WWW\tp\application\home\controller\UserController.class.php
+        行数:27错误提示:Use of undefined constant DRAMEWORK_CORE_PATH - assumed 'DRAMEWORK_CORE_PATH'时间:2019-09-18IP:127.0.0.1
+错误文件:D:\phpStudy\PHPTutorial\WWW\tp\application\runtime\home\User\c40c03facc0c54cac9ed88672c535bd757f9e827_0.file.face.html.php
+        行数:142错误提示:Undefined index: user_face时间:2019-09-18IP:127.0.0.1

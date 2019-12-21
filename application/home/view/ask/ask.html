@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>后盾问答</title>
+	<meta name="keywords" content="后盾问答"/>
+	<meta name="description" content="后盾问答"/>
+	<link rel="stylesheet" href="<{resource()}>home/css/common.css" />
+	<script type="text/javascript" src='<{resource()}>home/js/jquery-1.7.2.min.js'></script>
+	<script type="text/javascript" src='<{resource()}>home/js/top-bar.js'></script>
+	<link rel="stylesheet" href="<{resource()}>home/css/ask.css" />
+	<script>
+		//判断如果没有$user(没有登录)就为false/true
+		<{if $user}>
+		var login=true;
+		<{else}>
+		var login=false;
+		<{/if}>
+
+        $(function(){
+			$("select[name='ask_gold'] option").each(function(){
+				var my_gold=parseInt($(".my_gold").html());
+				//如果ask_gold里的金额大于my_gold我的金额就disabled禁用
+				if($(this).val() > my_gold){
+					$(this).prop("disabled",true);
+				}
+			});
+			$(document).on("click","select[name=cate_id] option",function(){
+				var cate_id=$(this).val();
+				var obj=$(this);
+				$(this).parent().nextAll().remove();
+
+				$.ajax({
+					type:"post",
+					url:"<{url('getCate')}>",
+					data:{
+                       cate_id:cate_id
+					},
+					dataType:"json",
+					success:function(data){
+                      if(data.status==1){
+						 var html="";
+						  html+='<select name="cate_id" size="16">';
+						  $.each(data.content,function(k,v){
+							  html+='<option value='+ v.cate_id+'>'+ v.cate_name+'</option>';
+						  });
+						  html+='</select>';
+						  obj.parent().after(html);
+					  }
+					}
+				})
+			});
+		   //找到登录class事件点击如果login==false就自动触发login
+			$(".send-btn").click(function(){
+				if(login==false){
+					$(".login").trigger("click")
+					return false;
+				}
+			});
+			$("#ok").click(function(){
+              var cate_id=$("select[name='cate_id']").last().val();
+				alert(cate_id);
+				$("input[name='cate_id']").val(cate_id);
+				$(".close-window").trigger("click");
+			});
+
+		});
+	</script>
+</head>
+<body>
+<{include file='public/header.html'}>
+<!--背景遮罩--><div id='background' class='hidden'></div>
+<!-- top结束 -->
+	<div id='location'>
+		<a href="">后盾问答</a>&nbsp;>&nbsp;提问
+	</div>
+<!--------------------中部-------------------->
+	<div id='center'>
+		<div class='send'>
+			<div class='title'>
+				<p class='left'>向亿万网友们提问</p>
+				<p class='right'>您还可以输入<span id='num'>50</span>个字</p>
+			</div>
+			<form action="" method='post'>
+				<div class='cons'>
+					<textarea name="ask_content"></textarea>
+				</div>
+				<div class='reward'>
+
+					<span id='sel-cate' class='cate-btn'>选择分类</span>
+					<{if $user}>
+					<ul>
+						<li>
+							我的金币：<span class="my_gold"><{$user['user_gold']}></span>
+						</li>
+						<li>
+					  悬赏：<select name="ask_gold">
+								<option value="0">0</option>
+								<option value="5">5</option>
+								<option value="10">10</option>
+								<option value="15">15</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="50">50</option>
+								<option value="80">80</option>
+								<option value="100">100</option>
+							</select>金币
+						</li>
+					</ul>
+					<{/if}>
+				</div>
+
+				<input type='hidden' name='cate_id' value='0'/>
+				<input type="submit" value='提交问题' class='send-btn'/>
+			</form>
+		</div>
+	</div>
+	<div id='category'>
+		<p class='title'>
+			<span>请选择分类</span>
+			<a href="" class='close-window'></a>
+		</p>
+		<div class='sel'>
+			<p>为您的问题选择一个合适的分类：</p>
+			<select name="cate_id" size='16'>
+				<{foreach from=$topCate item=vo}>
+				<option value="<{$vo.cate_id}>"><{$vo.cate_name}></option>
+				<{/foreach}>
+			</select>
+
+		</div>
+		<p class='bottom' >
+			<span id='ok'>确定</span>
+		</p>
+	</div>
+<!--------------------中部结束-------------------->
+
+<!-- 底部 -->
+<{include file='public/footer.html'}>

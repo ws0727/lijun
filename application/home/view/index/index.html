@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>后盾问答</title>
+	<meta name="keywords" content="后盾问答"/>
+	<meta name="description" content="后盾问答"/>
+	<link rel="stylesheet" href="<{resource()}>home/css/common.css" />
+	<script type="text/javascript" src='<{resource()}>home/js/jquery-1.7.2.min.js'></script>
+
+	<script type="text/javascript" src='<{resource()}>home/js/top-bar.js'></script>
+	<link rel="stylesheet" href="<{resource()}>home/css/index.css" />
+	<script type="text/javascript" src='<{resource()}>home/js/index.js'></script>
+	<script>
+		$(function(){
+
+		});
+	</script>
+</head>
+<body>
+     <!--引入头部-->
+	<{include file='public/header.html'}>
+
+
+
+
+
+	<div class='main'>
+		<div id='left'>
+			<p class='left-title'>所有问题分类</p>
+			<ul class='left-list'>
+				<{foreach from=$cate item=vo}>
+				<li class='list-l1'>
+					<div class='list-l1-wrap'>
+						<!--<h4><a href=""><{$vo.cate_name}></a></h4>-->
+						<ul class='list-l2'>
+							<li><a href=""><{$vo.cate_name}></a></li>
+						</ul>
+					</div>
+
+					<div class='list-more hidden'>
+						<{foreach from=$vo.son item=v}>
+						<ul>
+							<li><a href=""><{$v.cate_name}></a></li>
+						</ul>
+						<{/foreach}>
+					</div>
+
+				</li>
+				<{/foreach}>
+			</ul>
+		</div>
+
+
+
+
+		<div id='center'>
+			<div id='animate'>
+				<div class='imgs-wrap'>
+					<ul>
+						<li>
+							<a href=""><img src="<{resource()}>home/images/animate1.jpg" width='558' height='190'/></a>
+						</li>
+						<li>
+							<a href=""><img src="<{resource()}>home/images/animate2.jpg" width='558' height='190'/></a>
+						</li>
+						<li>
+							<a href=""><img src="<{resource()}>home/images/animate3.jpg" width='558' height='190'/></a>
+						</li>
+					</ul>
+				</div>
+				<ul class='ani-btn'>
+					<li class='ani-btn-cur'>0学费学习<i></i></li>
+					<li>超百G原创视频<i></i></li>
+					<li style='border:none'>有实力做后盾<i></i></li>
+				</ul>
+			</div>
+
+		<!--待解决问题开始	-->
+			<dl class='answer-list'>
+				<dt>
+					<span class='wait-as'>待解决问题</span>
+					<a href=''>更多>></a>
+				</dt>
+				<{foreach from=$ask1 item=vo}>
+				<dd>
+					<a href="<{url('Ask/show',['ask_id'=>$vo.ask_id])}>"><{$vo.ask_content}></a>
+					<span><{$vo.ask_answer_num}>回答</span>
+				</dd>
+				<{/foreach}>
+			</dl>
+			<!--待解决问题结束	-->
+			<!--高分悬赏问题开始-->
+			<dl class='answer-list'>
+				<dt>
+					<span class='reward-as'>高分悬赏问题</span>
+					<a href=''>更多>></a>
+				</dt>
+				<{foreach from=$ask2 item=vo}>
+				<dd>
+					<a href=""><b><{$vo.ask_gold}></b><{$vo.ask_content}></a>
+					<span><{$vo.ask_answer_num}>回答</span>
+				</dd>
+				<{/foreach}>
+			</dl>
+			<!--高分悬赏问题结束-->
+
+		</div>
+		<!-- 右侧 -->
+		<{include file='public/right.html'}>
+		<!-- ---右侧结束---- -->
+	</div>
+<!--------------------内容主体结束-------------------->
+	<div class='clear'></div>
+<!--引入尾部-->
+	 <{include file='public/footer.html'}>
+

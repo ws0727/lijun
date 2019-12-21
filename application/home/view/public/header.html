@@ -1,0 +1,155 @@
+<script src="<{resource()}>home/layer/layer.js"></script>
+<script >
+    var checkAccount="<{url('Login/checkAccount')}>";
+    var sendMsg="<{url('Login/sendMsg')}>";
+</script>
+<script src="<{resource()}>home/js/login.js"></script>
+<script src="<{resource()}>home/js/common.js"></script>
+
+<div id='top-fixed'>
+    <div id='top-bar'>
+        <ul class="top-bar-left fl">
+            <li><a href="http://www.houdunwang.com" target='_blank'>后盾顶尖后盾PHP培训</a></li>
+            <li><a href="http://www.houdunwang.com" target='_blank'>后盾论坛</a></li>
+        </ul>
+        <ul class='top-bar-right fr'>
+            <{if isset($smarty.session.user)}>
+            		 <li class='userinfo'>
+                      <a href="<{url('User/userinfo')}>" class='uname'><{$smarty.session.user.user_name}></a>
+                     </li>
+                     <li style='color:#eaeaf1'>|</li>
+                     <li><a href="<{url('Login/logout')}>">退出</a></li>
+
+<{else}>
+            <li><a href="" class='login'>登录</a></li>
+            <li style='color:#eaeaf1'>|</li>
+            <li><a href="" class='register'>注册</a></li>
+
+
+        </ul>
+        <{/if}>
+    </div>
+    <!-- 提问搜索框 -->
+    <div id='search'>
+        <div class='logo'><a href="" class='logo'></a></div>
+        <form action="" method=''>
+            <input type="text" name='' class='sech-cons'/>
+            <input type="submit" class='sech-btn'/>
+        </form>
+        <a href="<{url('Ask/ask')}>" class='ask-btn'></a>
+    </div>
+    <!-- 提问搜索框结束 -->
+</div>
+<div style='height:110px'></div>
+<!----------导航条---------->
+<div id='nav'>
+    <ul class='list'>
+        <li class='nav-sel'><a href="" class='home'>问答首页</a></li>
+        <li class='nav-sel ask-cate'>
+            <a href="" class='ask-list'><span>问题库</span><i></i></a>
+            <ul class='hidden'>
+                <{foreach from=$ask item=vo}>
+                <li>
+                    <a href="<{url('Ask/show',['ask_id'=>$vo.ask_id])}>"><{$vo.ask_content}></a>
+                </li>
+                <{/foreach}>
+            </ul>
+        </li>
+    </ul>
+
+    <p class='total'>累计提问：<{$count}></p>
+
+</div>
+
+<!----------注册框---------->
+<div id='register' class='hidden'>
+    <div class='reg-title'>
+        <p>欢迎注册后盾问答</p>
+        <a href="" title='关闭' class='close-window'></a>
+    </div>
+    <div id='reg-wrap'>
+        <div class='reg-left'>
+            <ul>
+                <li><span>账号注册</span></li>
+            </ul>
+            <div class='reg-l-bottom'>
+                已有账号，<a href="" id='login-now'>马上登录</a>
+            </div>
+        </div>
+        <div class='reg-right'>
+            <form action="<{url('Login/register')}>" method="post" name='register'>
+                <ul>
+                    <li>
+                        <label for="reg-uname">用户名</label>
+                        <input type="text" name='user_account' id='reg-uname'/>
+                        <span>邮箱号/手机号</span>
+                    </li>
+                    <li>
+                        <label for="reg-pwd">密码</label>
+                        <input type="password" name='user_pwd' id='reg-pwd'/>
+                        <span>6-20个字符:字母、数字或下划线 _</span>
+                    </li>
+                    <li>
+                        <label for="reg-pwded">确认密码</label>
+                        <input type="password" name='user_repwd' id='reg-pwded'/>
+                        <span>请再次输入密码</span>
+                    </li>
+                    <li>
+                        <label for="reg-verify">验证码</label>
+                        <input type="text" name='code' id='reg-verify'/>
+                        <span status="0" style="display: inline-block;padding: 9px;border:1px solid #ccc;border-radius: 5px;cursor: pointer" id="sendCode">发送短信</span>
+                        <span>请输入验证码</span>
+                    </li>
+                    <li class='submit'>
+                        <input type="submit" value='立即注册'/>
+                    </li>
+                </ul>
+            </form>
+            <div class="login_method">
+                <a href="<{url('Login/qq_login')}>"><img src="<{resource()}>home/images/Connect_logo_1.png"></a>
+                <a href="<{url('LOgin/weix_login')}>"><img src="<{resource()}>home/images/weix.jpg" style="height: 16px;width: 16px;margin-left: 20px"></a>
+                <a href="<{url('LOgin/weib_login')}>"><img src="<{resource()}>home/images/weib.jpg" style="height: 16px;width: 16px;margin-left: 20px"></a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------登录框---------->
+<div id='login' class='hidden'>
+    <div class='login-title'>
+        <p>欢迎您登录后盾问答</p>
+        <a href="" title='关闭' class='close-window'></a>
+    </div>
+    <div class='login-form'>
+        <span id='login-msg'></span>
+        <!-- 登录FORM -->
+        <form action="<{url('Login/login')}>" method='post' name='login'>
+            <ul>
+                <li>
+                    <label for="login-acc">账号</label>
+                    <input type="text" name='sign_name' class='input' id='login-acc'/>
+                    <span></span>
+                </li>
+                <li>
+                    <label for="login-pwd">密码</label>
+                    <input type="password" name='sign_pwd' class='input' id='login-pwd'/>
+                    <span></span>
+                </li>
+
+                <li>
+                    <input type="submit" id='login-btn'/>
+                    <!--botton-->
+                </li>
+            </ul>
+        </form>
+        <div class="login_method">
+            <a href="<{url('Login/qq_login')}>"><img src="<{resource()}>home/images/Connect_logo_1.png"></a>
+            <a href=""><img src="<{resource()}>home/images/weix.jpg" style="height: 16px;width: 16px;margin-left: 20px"></a>
+            <a href=""><img src="<{resource()}>home/images/weib.jpg" style="height: 16px;width: 16px;margin-left: 20px"></a>
+
+        </div>
+    </div>
+</div>
+
+<!--背景遮罩--><div id='background' class='hidden'></div>
